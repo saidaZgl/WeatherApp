@@ -42,6 +42,11 @@ router.post("/add-city", function(req, res, next) {
     temp_min: 2,
     temp_max: 19
   });
+  res.render("weather", { cityList });
+});
+
+router.get("/delete-city", function(req, res, next) {
+  cityList.splice(req.query.position, 1);
 
   res.render("weather", { cityList });
 });

@@ -45,20 +45,23 @@
             </div>
             <div class="col-12 col-lg-6">
                 <!--City list section-->
+                <% if(cityList.length == 0) { %>
+                <span class="empty">No cities found</span>
+                <%}%>
                 <ul class="list-group">
                     <% for(let i = 0; i < cityList.length; i++) {%>
-                    <li class="list-group-item d-flex justify-content-between align-items-center">
-                        <%= cityList[i].name %>
-                        <div>
-                            <%= cityList[i].desc %>
-                            <img src="<%= cityList[i].img %>">
-                            <span class="badge badge-warning badge-pill"><%= cityList[i].temp_max %>°c</span>
-                            <span class="badge badge-secondary badge-pill"><%= cityList[i].temp_min %>°c</span>
-                        </div>
+                <li class="list-group-item d-flex justify-content-between align-items-center">
+                    <%= cityList[i].name %>
+                    <div>
+                        <%= cityList[i].desc %>
+                        <img src="<%= cityList[i].img %>">
+                        <span class="badge badge-warning badge-pill"><%= cityList[i].temp_max %>°c</span>
+                        <span class="badge badge-secondary badge-pill"><%= cityList[i].temp_min %>°c</span>
+                    </div>
 
-                        <i class="delete-picto far fa-times-circle"></i>
-                    </li>
-                    <%}%>
+                    <a href="/delete-city?position=<%=i%>"><i class="deletepicto far fa-times-circle"></i></a>
+                </li>
+                <%}%>
 
                     
 
