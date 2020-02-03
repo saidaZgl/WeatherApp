@@ -34,4 +34,16 @@ router.get("/weather", function(req, res, next) {
   res.render("weather", { cityList });
 });
 
+router.post("/add-city", function(req, res, next) {
+  cityList.push({
+    name: req.body.newcity,
+    desc: "Nuageux",
+    img: "/images/picto-1.png",
+    temp_min: 2,
+    temp_max: 19
+  });
+
+  res.render("weather", { cityList });
+});
+
 module.exports = router;

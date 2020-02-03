@@ -29,12 +29,15 @@
         <div class="row">
             <div class="col-12 offset-lg-6 col-lg-6">
                 <!--New city section-->
-                <div class="input-group mb-3">
-                    <input type="text" class="form-control" placeholder="enter city name" aria-label="new city name">
-                    <div class="input-group-append">
-                        <button class="btn btn-warning" type="button" id="button-addon2">Add</button>
+                <form action="/add-city" method="POST">
+                    <div class="input-group mb-3">
+                        <input name="newcity" type="text" class="form-control" placeholder="enter city name"
+                            aria-label="new city name">
+                        <div class="input-group-append">
+                            <button class="btn btn-warning" type="submit" id="button-addon2">Add</button>
+                        </div>
                     </div>
-                </div>
+                </form>
             </div>
             <div class="col-12 col-lg-6">
                 <!--Map section-->
