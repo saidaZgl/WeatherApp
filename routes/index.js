@@ -35,13 +35,24 @@ router.get("/weather", function(req, res, next) {
 });
 
 router.post("/add-city", function(req, res, next) {
-  cityList.push({
-    name: req.body.newcity,
-    desc: "Nuageux",
-    img: "/images/picto-1.png",
-    temp_min: 2,
-    temp_max: 19
-  });
+  var alreadyExist = false;
+
+  for (var i = 0; i < cityList.length; i++) {
+    if (req.body.newcity.toLowerCase() == cityList[i].name.toLowerCase()) {
+      alreadyExist = true;
+    }
+  }
+
+  if (alreadyExist == false) {
+    cityList.push({
+      name: req.body.newcity,
+      desc: "Nuageux",
+      img: "/images/picto-1.png",
+      temp_min: 2,
+      temp_max: 19
+    });
+  }
+
   res.render("weather", { cityList });
 });
 
