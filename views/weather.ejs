@@ -43,17 +43,21 @@
             <div class="col-12 col-lg-6">
                 <!--City list section-->
                 <ul class="list-group">
+                    <% for(let i = 0; i < cityList.length; i++) {%>
                     <li class="list-group-item d-flex justify-content-between align-items-center">
-                        Paris
+                        <%= cityList[i].name %>
                         <div>
-                            Nuageux
-                            <img src="/images/picto-1.png">
-                            <span class="badge badge-warning badge-pill">7.22c</span>
-                            <span class="badge badge-secondary badge-pill">7.56c</span>
+                            <%= cityList[i].desc %>
+                            <img src="<%= cityList[i].img %>">
+                            <span class="badge badge-warning badge-pill"><%= cityList[i].temp_max %>°c</span>
+                            <span class="badge badge-secondary badge-pill"><%= cityList[i].temp_min %>°c</span>
                         </div>
 
                         <i class="delete-picto far fa-times-circle"></i>
                     </li>
+                    <%}%>
+
+                    
 
                 </ul>
             </div>
