@@ -1,6 +1,6 @@
 var express = require("express");
 var router = express.Router();
-var resquest = require("sync-request");
+var request = require("sync-request");
 
 var cityList = [
   {
@@ -36,6 +36,14 @@ router.get("/weather", function(req, res, next) {
 });
 
 router.post("/add-city", function(req, res, next) {
+  var data = request(
+    "GET",
+    `https://api.openweathermap.org/data/2.5/weather?q=${req.body.newcity}&units=metric&lang=fr&appid=c059bee46a5ef8676ac645bab30e90a1`
+  );
+
+  var dataAPI = JSON.parse(data.body);
+  console.log(dataAPI);
+
   var alreadyExist = false;
 
   for (var i = 0; i < cityList.length; i++) {
@@ -44,13 +52,14 @@ router.post("/add-city", function(req, res, next) {
     }
   }
 
-  if (alreadyExist == false) {
+  if (alreadyExist == false && dataAPI.name) {
     cityList.push({
       name: req.body.newcity,
-      desc: "Nuageux",
-      img: "/images/picto-1.png",
-      temp_min: 2,
-      temp_max: 19
+      desc: dataAPI.weather[0].description,
+      img:
+        "http://openweathermap.org/img/wn/" + dataAPI.weather[0].icon + ".png",
+      temp_min: dataAPI.main.temp_min,
+      temp_max: dataAPI.main.temp_max
     });
   }
 
