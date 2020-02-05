@@ -48,6 +48,10 @@
                 <% if(cityList.length == 0) { %>
                 <span class="empty">No cities found</span>
                 <%}%>
+<div class="d-flex justify-content-center">
+   <a class="update-cities" href="/update-cities"> Update Cities<i class="fas fa-sync-alt"></i></a>
+</div>
+               
                 <ul class="list-group">
                     <% for(let i = 0; i < cityList.length; i++) {%>
                 <li class="list-group-item d-flex justify-content-between align-items-center">
@@ -59,7 +63,7 @@
                         <span class="badge badge-secondary badge-pill"><%= cityList[i].temp_min %>°c</span>
                     </div>
 
-                    <a href="/delete-city?position=<%=i%>"><i class="delete-picto far fa-times-circle"></i></a>
+                    <a href="/delete-city?id=<%=cityList[i].id%>"><i class="delete-picto far fa-times-circle"></i></a>
                 </li>
                 <%}%>
 
