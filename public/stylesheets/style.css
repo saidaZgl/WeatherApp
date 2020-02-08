@@ -57,3 +57,7 @@ a {
   color: #000000;
   margin: 15px;
 }
+
+#mapid {
+  height: 400px;
+}

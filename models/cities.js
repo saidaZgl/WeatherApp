@@ -5,7 +5,9 @@ var cityShema = mongoose.Schema({
   desc: String,
   img: String,
   temp_min: Number,
-  temp_max: Number
+  temp_max: Number,
+  lon: Number,
+  lat: Number
 });
 
 var cityModel = mongoose.model("cities", cityShema);

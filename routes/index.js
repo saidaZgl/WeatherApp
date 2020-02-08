@@ -4,8 +4,6 @@ var request = require("sync-request");
 
 var cityModel = require("../models/cities");
 
-var userModel = require("../models/users");
-
 /* GET home page. */
 router.get("/", function(req, res, next) {
   res.render("login");
@@ -27,6 +25,7 @@ router.post("/add-city", async function(req, res, next) {
     `https://api.openweathermap.org/data/2.5/weather?q=${req.body.newcity}&units=metric&lang=fr&appid=0c815b9455235455a301668a56c67b18`
   );
   var dataAPI = JSON.parse(data.body);
+  console.log(dataAPI);
 
   var alreadyExist = await cityModel.findOne({
     name: req.body.newcity.toLowerCase()
@@ -39,7 +38,9 @@ router.post("/add-city", async function(req, res, next) {
       img:
         "http://openweathermap.org/img/wn/" + dataAPI.weather[0].icon + ".png",
       temp_min: dataAPI.main.temp_min,
-      temp_max: dataAPI.main.temp_max
+      temp_max: dataAPI.main.temp_max,
+      lon: dataAPI.coord.lon,
+      lat: dataAPI.coord.lat
     });
 
     await newCity.save();
@@ -82,7 +83,9 @@ router.get("/update-cities", async function(req, res, next) {
           dataAPI.weather[0].icon +
           ".png",
         temp_min: dataAPI.main.temp_min,
-        temp_max: dataAPI.main.temp_max
+        temp_max: dataAPI.main.temp_max,
+        lon: dataAPI.coord.lon,
+        lat: dataAPI.coord.lat
       }
     );
   }
@@ -90,56 +93,6 @@ router.get("/update-cities", async function(req, res, next) {
   var cityList = await cityModel.find();
 
   res.render("weather", { cityList });
-});
-
-router.post("/sign-up", async function(req, res, next) {
-  var searchUser = await userModel.findOne({
-    email: req.body.emailFromFront
-  });
-
-  if (!searchUser) {
-    var newUser = new userModel({
-      username: req.body.usernameFromFront,
-      email: req.body.emailFromFront,
-      password: req.body.passwordFromFront
-    });
-
-    var newUserSave = await newUser.save();
-
-    req.session.user = {
-      name: newUserSave.username,
-      id: newUserSave._id
-    };
-
-    console.log(req.session.user);
-
-    res.redirect("/weather");
-  } else {
-    res.redirect("/");
-  }
-});
-
-router.post("/sign-in", async function(req, res, next) {
-  var searchUser = await userModel.findOne({
-    email: req.body.emailFromFront,
-    password: req.body.passwordFromFront
-  });
-
-  if (searchUser != null) {
-    req.session.user = {
-      name: searchUser.username,
-      id: searchUser._id
-    };
-    res.redirect("/weather");
-  } else {
-    res.render("login");
-  }
-});
-
-router.get("/logout", function(req, res, next) {
-  req.session.user = null;
-
-  res.redirect("/");
 });
 
 module.exports = router;
