@@ -1,7 +1,9 @@
 var express = require("express");
 var router = express.Router();
 var request = require("sync-request");
+
 var cityModel = require("../models/cities");
+
 var userModel = require("../models/users");
 
 /* GET home page. */
@@ -14,6 +16,7 @@ router.get("/weather", async function(req, res, next) {
     res.redirect("/");
   } else {
     var cityList = await cityModel.find();
+
     res.render("weather", { cityList });
   }
 });
@@ -21,11 +24,9 @@ router.get("/weather", async function(req, res, next) {
 router.post("/add-city", async function(req, res, next) {
   var data = request(
     "GET",
-    `https://api.openweathermap.org/data/2.5/weather?q=${req.body.newcity}&units=metric&lang=fr&appid=c059bee46a5ef8676ac645bab30e90a1`
+    `https://api.openweathermap.org/data/2.5/weather?q=${req.body.newcity}&units=metric&lang=fr&appid=0c815b9455235455a301668a56c67b18`
   );
-
   var dataAPI = JSON.parse(data.body);
-  console.log(dataAPI);
 
   var alreadyExist = await cityModel.findOne({
     name: req.body.newcity.toLowerCase()
@@ -40,8 +41,10 @@ router.post("/add-city", async function(req, res, next) {
       temp_min: dataAPI.main.temp_min,
       temp_max: dataAPI.main.temp_max
     });
+
     await newCity.save();
   }
+
   cityList = await cityModel.find();
 
   res.render("weather", { cityList });
@@ -51,7 +54,9 @@ router.get("/delete-city", async function(req, res, next) {
   await cityModel.deleteOne({
     _id: req.query.id
   });
+
   var cityList = await cityModel.find();
+
   res.render("weather", { cityList });
 });
 
@@ -61,9 +66,8 @@ router.get("/update-cities", async function(req, res, next) {
   for (var i = 0; i < cityList.length; i++) {
     var data = request(
       "GET",
-      `https://api.openweathermap.org/data/2.5/weather?q=${cityList[i].name}&units=metric&lang=fr&appid=c059bee46a5ef8676ac645bab30e90a1`
+      `https://api.openweathermap.org/data/2.5/weather?q=${cityList[i].name}&units=metric&lang=fr&appid=0c815b9455235455a301668a56c67b18`
     );
-
     var dataAPI = JSON.parse(data.body);
 
     await cityModel.updateOne(
@@ -82,7 +86,9 @@ router.get("/update-cities", async function(req, res, next) {
       }
     );
   }
+
   var cityList = await cityModel.find();
+
   res.render("weather", { cityList });
 });
 
@@ -97,7 +103,8 @@ router.post("/sign-up", async function(req, res, next) {
       email: req.body.emailFromFront,
       password: req.body.passwordFromFront
     });
-    var newUser = await newUser.save();
+
+    var newUserSave = await newUser.save();
 
     req.session.user = {
       name: newUserSave.username,
@@ -106,32 +113,33 @@ router.post("/sign-up", async function(req, res, next) {
 
     console.log(req.session.user);
 
-    res.redirect("/weater");
-  } else {
-    res.redirect("/");
-  }
-});
-
-router.post("sign-in", async function(req, res, next) {
-  var searchUser = await userModel.findOne({
-    email: req.body.emailFromFront,
-    password: req.body.passwordFromFront
-  });
-  if (searchUser != null) {
-    req.session.user = {
-      name: searchUser.username,
-      id: searchUser._id
-    };
-
     res.redirect("/weather");
   } else {
     res.redirect("/");
   }
 });
 
+router.post("/sign-in", async function(req, res, next) {
+  var searchUser = await userModel.findOne({
+    email: req.body.emailFromFront,
+    password: req.body.passwordFromFront
+  });
+
+  if (searchUser != null) {
+    req.session.user = {
+      name: searchUser.username,
+      id: searchUser._id
+    };
+    res.redirect("/weather");
+  } else {
+    res.render("login");
+  }
+});
+
 router.get("/logout", function(req, res, next) {
   req.session.user = null;
-  res.render("login");
+
+  res.redirect("/");
 });
 
 module.exports = router;
