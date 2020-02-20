@@ -1,16 +1,26 @@
-var mongoose = require("mongoose");
+const mongoose = require("mongoose");
+
+// remplir les chaînes de caractères vides ci-dessous par vos propres infos BDD
+var user = "";
+var password = "";
+// ici, il s'agit de l'URL pour accéder à la BDD créée
+var dbName = "";
 
 var options = {
   connectTimeoutMS: 5000,
-  useUnifiedTopology: true,
-  useNewUrlParser: true
+  useNewUrlParser: true,
+  useUnifiedTopology: true
 };
 
 mongoose.connect(
-  "mongodb+srv://capsule:k3RqNc5rHqXPh3wJ@saidazgl-0zpfc.mongodb.net/weatherapp?retryWrites=true&w=majority",
+  `mongodb+srv://${user}:${password}@${dbName}`,
   options,
   function(err) {
-    console.log(err);
+    if (err) {
+      console.log(err);
+    } else {
+      console.info("Connect OK");
+    }
   }
 );
 
