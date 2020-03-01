@@ -2,6 +2,16 @@
 
 :sunny: WheatherApp est une application permettant d’afficher la météo :snowman: des villes :umbrella:
 
+<h1 align="center">Weather App</h1>
+
+<h2 align="center">
+  <img src="public/images/login.png" style="max-width:100%" alt="weather-app-home" />
+</h2>
+
+<h2 align="center">
+  <img src="public/images/weather.jpg" style="max-width:100%" alt="weather-app-home" />
+</h2>
+
 # Wheather app, les fonctionnalités développées :
 
 Création d'une application web permettant d’afficher la météo d’une ville sur une carte interactive.
