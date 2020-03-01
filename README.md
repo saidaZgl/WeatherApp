@@ -9,7 +9,7 @@
 </h2>
 
 <h2 align="center">
-  <img src="public/images/weather.jpg" style="max-width:100%" alt="weather-app-home" />
+  <img src="public/images/img_weather.png" style="max-width:100%" alt="weather-app-home" />
 </h2>
 
 # Wheather app, les fonctionnalités développées :
